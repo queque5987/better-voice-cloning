@@ -37,7 +37,7 @@ class WalmStart(BaseModel):
 def index():
     return FileResponse("index.html")
 
-@app.post('/inference-e')
+@app.post('/inference-c')
 def cold_inference(userinput: ColdStart):
     print("service requested.")
     userinput = userinput.dict()
