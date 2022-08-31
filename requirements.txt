@@ -4,4 +4,3 @@ numpy
 uvicorn
 favicon
 gunicorn
-eng_to_ipa
