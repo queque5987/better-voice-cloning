@@ -32,8 +32,7 @@ https://github.com/CorentinJ/Real-Time-Voice-Cloning
 
 ## FastAPI   
 developed with FastAPI   
-to install librosa : https://github.com/heroku/heroku-buildpack-apt   
-source : https://fastapi.tiangolo.com/   
+https://fastapi.tiangolo.com/   
 
 ## Heroku
 deployed with FastAPI   
