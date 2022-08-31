@@ -3,23 +3,21 @@
   <head>
     <meta charset="utf-8">
     <span class="tab">&#9;</span>
-    <title>Better-API-Phonemizer</title>
-    <h1>Better-API-Phonemizer</h1><br>
+    <title>Better-API-Voice-Cloning</title>
+    <h1>Better-API-Voice-Cloning</h1><br>
   </head>
   <body>
     <strong>@request<br>
-        &nbsp;&nbsp;transcription: transcription to phonemize @type {str}<br>
+        &nbsp;&nbsp;<br>
             @response<br>
-        &nbsp;&nbsp;transcription: phonemized transcription @type {str}<br></strong>
-        <!-- &nbsp;&nbsp;&#9;used <a href = "https://pypi.org/project/eng-to-ipa/">eng_to_ipa</a> library<br> -->
-
+        &nbsp;&nbsp;<br></strong>
         &nbsp;&nbsp;&#9;<div id="guideLine">Type the line to generate speech</div>
         &nbsp;&nbsp;&#9;<input type = "text" id = "text">
         &nbsp;&nbsp;&#9;<input type="file" id="audio_file_input" accept="audio/*" disabled = "disabled">
-        &nbsp;&nbsp;&#9;<input type = "radio" id = "reset">
+        &nbsp;&nbsp;&#9;<input type = "radio" id = "reset"> refresh<br>
         &nbsp;&nbsp;&#9;<span style = "background-color: lightskyblue;" id = "phoneme"></span><br>
 
-        &nbsp;&nbsp;&#9;<a href = "https://github.com/queque5987/better-phonemizer"><img src = "https://github.com/queque5987/better-test/blob/main/github%20(1).png?raw=true" width = "150" height = "60" alt = "GitHub: queque5987"></a><br>
+        &nbsp;&nbsp;&#9;<a href = "https://github.com/queque5987/better-voice-cloning"><img src = "https://github.com/queque5987/better-test/blob/main/github%20(1).png?raw=true" width = "150" height = "60" alt = "GitHub: queque5987"></a><br>
         &nbsp;&nbsp;&nbsp;pyw5987@gmail.com
         
             <script type = "text/javascript">
@@ -78,7 +76,9 @@
           
               // 4. input 파일 입력 이벤트 핸들러
               document.getElementById('audio_file_input').onchange = (event)=>{
+                  document.getElementById("guideLine").innerText = "Predicting voice . . . ";
                   document.getElementById("text").disabled = true;
+                  document.getElementById("audio_file_input").disabled = true
                   // input 태그에서 파일이 입력되면
                   // input.files[0]에 해당 파일 데이터가 File 객체로 저장된다.
                   const file = event.currentTarget.files[0];
@@ -123,16 +123,50 @@
                   'Content-Type': 'application/json',
                   },
                   body: jsonString
-                }).then(function(response){
-                  console.log(response.json())
-                }
-                // }).then((response) => response.json()
+                }).then((response) => response.json()
                 ).then(function(data){
-                  var phoneme = document.getElementById("phoneme");
-                  var res = JSON.parse(data)
-                  console.log(res.wav)
+                  var res = JSON.parse(data);
+                  console.log(res.wav);
+                  console.log(res.sr);
+                  get_taco_sound(res.wav, res.sr);
                 })
 
+              }
+
+              function get_taco_sound(wav, sr) {
+                console.log("playing . . . ")
+                document.getElementById("guideLine").innerText = "Playing your voice";
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+                var myArrayBuffer = audioCtx.createBuffer(3, wav.length, 16000);
+                for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {
+                  // 이는 데이터를 포함하고 있는 실제 배열을 줍니다
+                  var nowBuffering = myArrayBuffer.getChannelData(channel);
+                  for (var i = 0; i < myArrayBuffer.length; i++) {
+                    // Math.random()은 [0, 1.0]에 있습니다
+                    // 오디오는 [-1.0, 1.0]에 있을 필요가 있습니다
+                    nowBuffering[i] = wav[i];
+                  }
+                }
+                
+
+                // AudioBufferSourceNode를 얻습니다.
+                // 이것이 AudioBuffer를 재생하기를 원할 때 사용할 AudioNode입니다
+                var source = audioCtx.createBufferSource();
+
+                // AudioBufferSourceNode에 버퍼를 설정합니다
+                source.buffer = myArrayBuffer;
+
+                // AudioBufferSourceNode를 목적지에
+                // 연결해 소리가 나오게 합니다
+                source.connect(audioCtx.destination);
+
+                // 소스 재생을 시작합니다
+                source.start();
+                document.getElementById("text").value = "";
+                document.getElementById("text").disabled = false;
+                document.getElementById("audio_file_input").value = "";
+                document.getElementById("guideLine").innerText = "Type the line to generate speech";
               }
 
            </script>
