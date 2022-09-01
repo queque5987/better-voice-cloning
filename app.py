@@ -42,8 +42,6 @@ def cold_inference(userinput: ColdStart):
     print("service requested.")
     userinput = userinput.dict()
     wav = userinput["wav"]
-    print("wav : {}".format(type(wav)))
-    print("-----\n{}-----\n".format(wav))
     sr = userinput["sr"]
     text = userinput["text"]
     wav = utils.get_wav(wav, sr, text)
