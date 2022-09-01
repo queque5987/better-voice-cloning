@@ -20,7 +20,6 @@ def get_wav(wav: list, sr: int, text: str):
     print("requesting embed to encoder . . .")
     response = get_response(urls["encoder-inference"], {"wav": wav, "sr": sr})
     embed = eval(response.json())['embed']
-    print("embed -----\n{}".format(embed))
 
     return get_wav_embedding(embed, sr, text)
 
