@@ -110,12 +110,13 @@ source : https://fastapi.tiangolo.com/
 
 ## Heroku
 배포를 위해 Heroku를 사용하였습니다.    
-librosa를 설치하기 위해서 Heroku에 해당 빌드팩을 추가하였습니다. (https://github.com/heroku/heroku-buildpack-apt)   
-https://dashboard.heroku.com/
 
 -----
 
 ## 사용예시(Examples) 
+
+****각각의 API를 개별적으로 사용할 것을 권장합니다.<br>Time out 등 자잘한 오류가 잦음***
+
 
 ## ColdStart(with wav file)
 
