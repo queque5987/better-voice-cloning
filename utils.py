@@ -3,15 +3,21 @@ import numpy as np
 import json
 
 urls = {
-    "encoder-inference": "https://better-encoder.herokuapp.com/inference/",
-    "encoder-preprocess": "https://better-encoder.herokuapp.com/preprocess/",
-    "synthesizer": "https://better-synthesizer.herokuapp.com/inference/",
-    "vocoder": "https://better-vocoder.herokuapp.com/inference/",
+    "encoder-inference": "https://better-encoder.herokuapp.com/inference",
+    "encoder-preprocess": "https://better-encoder.herokuapp.com/preprocess",
+    "synthesizer": "https://better-synthesizer.herokuapp.com/inference",
+    "vocoder": "https://better-vocoder.herokuapp.com/inference",
     ## backup server ##
-    "encoder-inference2": "https://better-encoder-2.herokuapp.com/inference/",
-    "encoder-preprocess2": "https://better-encoder-2.herokuapp.com/preprocess/",
-    "synthesizer2": "https://better-synthesizer-2.herokuapp.com/inference/",
-    "vocoder2": "https://better-vocoder-2.herokuapp.com/inference/"
+    "encoder-inference2": "https://better-encoder-2.herokuapp.com/inference",
+    "encoder-preprocess2": "https://better-encoder-2.herokuapp.com/preprocess",
+    "synthesizer2": "https://better-synthesizer-2.herokuapp.com/inference",
+    "vocoder2": "https://better-vocoder-2.herokuapp.com/inference"
+}
+response_urls = {
+    "encoder-inference": "https://better-encoder.herokuapp.com/check",
+    "encoder-preprocess": "https://better-encoder.herokuapp.com/check",
+    "synthesizer": "https://better-synthesizer.herokuapp.com/check",
+    "vocoder": "https://better-vocoder.herokuapp.com/check"
 }
 
 headers = {
@@ -19,9 +25,10 @@ headers = {
 }
 
 def get_response(url: str, data: dict):
-    res = requests.request("GET", urls[url], headers=headers)
+    res = requests.request("GET", response_urls[url], headers=headers)
     print(res.text)
     if res.text != "\"service available\"":
+        print("{} dose not repond \nchanging to {}".format(url, url+"2"))
         return requests.request("POST", urls[url+"2"], headers=headers, data=json.dumps(data))
     return requests.request("POST", urls[url], headers=headers, data=json.dumps(data))
 
