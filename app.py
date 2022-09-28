@@ -2,7 +2,7 @@
     ***************************************************
     author: Park Young-woong
     e-mail: pyw5987@gmail.com
-    github: https://github.com/queque5987
+    github: https://github.com/queque5987/better-voice-cloning
     ***************************************************
 """
 from fastapi import FastAPI
