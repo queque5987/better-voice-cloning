@@ -26,17 +26,17 @@ headers = {
 
 def get_response(url: str, data: dict):
     res = requests.request("GET", response_urls[url], headers=headers)
-    print(res.text)
-    if res.text != "\"service available\"":
-        print("{} dose not repond \nchanging to {}".format(url, url+"2"))
-        return requests.request("POST", urls[url+"2"], headers=headers, data=json.dumps(data))
+    # print(res.text)
+    # if res.text != "\"service available\"":
+    #     print("{} dose not repond \nchanging to {}".format(url, url+"2"))
+    #     return requests.request("POST", urls[url+"2"], headers=headers, data=json.dumps(data))
     return requests.request("POST", urls[url], headers=headers, data=json.dumps(data))
 
 def get_wav(wav: list, sr: int, text: str):
     print("requesting embed to encoder . . .")
     response = get_response("encoder-inference", {"wav": wav, "sr": sr})
     embed = eval(response.json())['embed']
-    print("embed -----\n{}".format(embed))
+    # print("embed -----\n{}".format(embed))
 
     return get_wav_embedding(embed, sr, text)
 
